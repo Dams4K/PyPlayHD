@@ -1,6 +1,7 @@
-from requester import Response, Requester, ResponseFailed, ResponseSuccess
+from .requester import Response, Requester, ResponseFailed, ResponseSuccess
+from .player import BuilderPlayer
+
 from enum import StrEnum, auto
-from player import BuilderPlayer
 
 class Mode(StrEnum):
     NORMAL = auto()
