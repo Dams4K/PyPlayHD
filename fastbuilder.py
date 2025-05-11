@@ -1,4 +1,4 @@
-from requester import Response, Requester
+from requester import Response, Requester, ResponseSuccess
 from enum import StrEnum, auto
 from player import BuilderPlayer
 
@@ -24,5 +24,6 @@ class FastBuilder(Requester):
 
     def top(self, mode: Mode) -> list[BuilderPlayer]:
         response: Response = self.consume(Endpoints.MODE_TOP, mode=mode.value)
-        print(response)
+        if isinstance(response, ResponseSuccess):
+            return [BuilderPlayer(player_data) for player_data in response.data]
         return []
