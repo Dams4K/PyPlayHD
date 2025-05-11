@@ -18,12 +18,18 @@ class Endpoints:
 
 class FastBuilder(Requester):
     @property
+    def _modes(self) -> Response:
+        return self.ask(Endpoints.MODES)
+
+    @property
     def modes(self) -> list[Mode]:
-        response: Response = self.ask(Endpoints.MODES)
-        return [Mode[name] for name in response.data.get("modes", [])]
+        return [Mode[name] for name in self._modes.data.get("modes", [])]
+
+    def _top(self, mode: Mode) -> Response:
+        return self.consume(Endpoints.MODE_TOP, mode=mode.value)
 
     def top(self, mode: Mode) -> list[BuilderPlayer]:
-        response: Response = self.consume(Endpoints.MODE_TOP, mode=mode.value)
+        response: Response = self._top(mode)
         if isinstance(response, ResponseSuccess):
             return [BuilderPlayer(player_data) for player_data in response.data]
         return []
