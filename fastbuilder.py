@@ -1,8 +1,6 @@
 from requester import Response, Requester
 from enum import StrEnum, auto
-
-class BuilderPlayer:
-    pass
+from player import BuilderPlayer
 
 class Mode(StrEnum):
     NORMAL = auto()
@@ -25,4 +23,6 @@ class FastBuilder(Requester):
         return [Mode[name] for name in response.data.get("modes", [])]
 
     def top(self, mode: Mode) -> list[BuilderPlayer]:
+        response: Response = self.consume(Endpoints.MODE_TOP, mode=mode.value)
+        print(response)
         return []

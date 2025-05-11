@@ -11,7 +11,7 @@ class Response:
         self.data: dict             = response.get("data", {})
 
     def __repr__(self):
-        return f"<Response status={self.status} data={self.data}>"
+        return f"<{self.__class__.__name__} status={self.status} data={self.data}>"
 
 class Requester:
     ROOT = "https://mcplayhd.net/api/v1/"
@@ -20,7 +20,7 @@ class Requester:
         self.token = token
 
     @property
-    def headers(self):
+    def authorized_headers(self):
         return {
             "Authorization": f"Bearer {self.token}",
             "Accept":"*/*"
@@ -32,17 +32,16 @@ class Requester:
             "Accept": "*/*"
         }
 
-    def get(self, endpoint: str, root: str = ROOT) -> Response:
+    def _get(self, endpoint: str, headers: dict, root: str = ROOT, **kwargs) -> Response:
         response = requests.get(
-            os.path.join(root, endpoint),
-            headers=self.headers,
+            os.path.join(root, endpoint).format(**kwargs),
+            headers=headers,
         )
 
         return Response(response.json())
 
-    def ask(self, endpoint: str, root: str = ROOT) -> Response:
-        response = requests.get(
-            os.path.join(root, endpoint),
-            headers=self.unauthorized_headers
-        )
-        return Response(response.json())
+    def consume(self, endpoint: str, root: str = ROOT, **kwargs) -> Response:
+        return self._get(endpoint, self.authorized_headers, root, **kwargs)
+
+    def ask(self, endpoint: str, root: str = ROOT, **kwargs) -> Response:
+        return self._get(endpoint, self.unauthorized_headers, root, **kwargs)
