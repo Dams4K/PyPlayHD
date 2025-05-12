@@ -23,14 +23,20 @@ class PlayerInfo:
     @classmethod
     def from_data(cls, data: dict):
         return cls(data["uuid"], data["name"], PlayerGroup[data["group"]])
+    
+    def __repr__(self):
+        attrs = [(attr_name, getattr(self, attr_name)) for attr_name in [attr for attr in self.__dict__ if not attr.startswith("_")]]
+        inner = ' '.join("%s=%r" % t for t in attrs)
+        return f'<{self.__class__.__name__} {inner}>'
+
 
 class BuilderStats:
     def __init__(self,
-        games: int = 0,
-        wins: int = 0,
-        blocks: int = 0,
-        time_best: int = 0,
-        time_total: int = 0,
+        games: int = -1,
+        wins: int = -1,
+        blocks: int = -1,
+        time_best: int = -1,
+        time_total: int = -1,
         confirmed: bool = False,
         speedrun_confirmed: bool = False
     ) -> None:
@@ -51,16 +57,28 @@ class BuilderStats:
         if data is None:
             return cls()
         return cls(
-            data.get("games", 0),
-            data.get("wins", 0),
-            data.get("blocks", 0),
-            data.get("time_best", 0),
-            data.get("time_total", 0),
+            data.get("games", -1),
+            data.get("wins", -1),
+            data.get("blocks", -1),
+            data.get("timeBest", -1),
+            data.get("timeTotal", -1),
             data.get("confirmed", False),
             data.get("speedrunConfirmed", False)
         )
+
+
+    def __repr__(self):
+        attrs = [(attr_name, getattr(self, attr_name)) for attr_name in [attr for attr in self.__dict__ if not attr.startswith("_")]]
+        inner = ' '.join("%s=%r" % t for t in attrs)
+        return f'<{self.__class__.__name__} {inner}>'
+
 
 class BuilderPlayer:
     def __init__(self, data: dict) -> None:
         self.player_info: PlayerInfo = PlayerInfo.from_data(data["playerInfo"])
         self.builder_stats: BuilderStats = BuilderStats.from_data(data["stats"])
+    
+    def __repr__(self):
+        attrs = [(attr_name, getattr(self, attr_name)) for attr_name in [attr for attr in self.__dict__ if not attr.startswith("_")]]
+        inner = ' '.join("%s=%r" % t for t in attrs)
+        return f'<{self.__class__.__name__} {inner}>'
