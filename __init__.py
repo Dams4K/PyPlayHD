@@ -1,4 +1,4 @@
-from .fastbuilder import FastBuilder
+from .fastbuilder import *
 
 class Client:
     def __init__(self, token: str):
