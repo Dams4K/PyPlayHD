@@ -63,3 +63,6 @@ class Requester:
 
     def ask(self, endpoint: str, root: str = ROOT, **kwargs) -> Response:
         return self._get(endpoint, self.unauthorized_headers, root, **kwargs)
+
+    def api_info(self, root: str = ROOT) -> Response:
+        return self.consume("", root)
