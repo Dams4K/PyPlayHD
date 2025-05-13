@@ -32,9 +32,9 @@ class PlayerInfo:
 
 class BuilderStats:
     def __init__(self,
-        games: int = -1,
-        wins: int = -1,
-        blocks: int = -1,
+        games: int = 0,
+        wins: int = 0,
+        blocks: int = 0,
         time_best: int = -1,
         time_total: int = -1,
         confirmed: bool = False,
@@ -57,9 +57,9 @@ class BuilderStats:
         if data is None:
             return cls()
         return cls(
-            data.get("games", -1),
-            data.get("wins", -1),
-            data.get("blocks", -1),
+            data.get("games", 0),
+            data.get("wins", 0),
+            data.get("blocks", 0),
             data.get("timeBest", -1),
             data.get("timeTotal", -1),
             data.get("confirmed", False),
