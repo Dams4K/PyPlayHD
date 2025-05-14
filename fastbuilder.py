@@ -32,7 +32,7 @@ class FastBuilder(Requester):
 
     @property
     def modes(self) -> list[Mode]:
-        return [Mode[name] for name in self._modes.data.get("modes", [])]
+        return [Mode[name.upper()] for name in self._modes.data.get("modes", [])]
 
     def _top(self, mode: Mode) -> Response:
         return self.consume(Endpoints.MODE_TOP, mode=mode.value)
