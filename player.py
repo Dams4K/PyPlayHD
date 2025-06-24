@@ -4,6 +4,7 @@ class PlayerGroup(StrEnum):
     PLAYER = auto()
     PREMIUM = auto()
     VIP = auto()
+    VIPPLUS = auto()
     MVP = auto()
     YOUTUBER = auto()
     BUILDER = auto()
