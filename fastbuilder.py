@@ -54,7 +54,7 @@ class FastBuilder(Requester):
     def mode_player_stats(self, mode: Mode, player: str) -> BuilderPlayer | None:
         response: Response = self._mode_player_stats(mode, player)
         if isinstance(response, ResponseFailed):
-            print("DEBUG - MCPlayHD response failed :( -", response.message)
+            print("DEBUG - MCPlayHD response failed :( -", response.message, player)
             return None
         return BuilderPlayer(response.data)
 
